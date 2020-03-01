@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">lab1</string>
+    <string name="titleApp">Кости</string>
+    <string name="titleRules">Правила игры</string>
+    <string name="rules">По очередно 2 игрока бросают кости, если выпадает дубль, то кости бросаются снова. Выигрывает тот, кто первый наберет 100 очков.</string>
+    <string name="buttonPlay">Играть</string>
+    <string name="descImage">cubes</string>
 </resources>
