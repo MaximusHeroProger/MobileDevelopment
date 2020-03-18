@@ -10,4 +10,10 @@
     <string name="botScore">0</string>
     <string name="playerScore">0</string>
     <string name="desc_img">Side cube</string>
+    <string name="cup">Cup</string>
+    <string name="winText">Ты победил!</string>
+    <string name="loseText">Ты проиграл!</string>
+    <string name="sadSmile">sadSmile</string>
+    <string name="drawImg">drawImg</string>
+    <string name="draw">Ничья!</string>
 </resources>
