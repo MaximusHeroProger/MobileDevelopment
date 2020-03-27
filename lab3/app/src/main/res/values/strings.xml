@@ -1,0 +1,14 @@
+<resources>
+    <string name="widget_name">Лабораторная работа 3</string>
+    <string name="widget_text">Лабораторная работа 3</string>
+
+    <string name="redColor">Красный</string>
+    <string name="orangeColor">Оранжевый</string>
+    <string name="yellowColor">Желтый</string>
+    <string name="greenColor">Зеленый</string>
+    <string name="blueColor">Голубой</string>
+    <string name="darkBlueColor">Синий</string>
+    <string name="purpleColor">Фиолетовый</string>
+    <string name="widget_edit_text">Текст заметки</string>
+    <string name="create_note_btn_text">Создать заметку</string>
+</resources>
