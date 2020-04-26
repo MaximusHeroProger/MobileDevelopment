@@ -1,13 +1,19 @@
 package com.example.contacts;
 
+import androidx.annotation.AnyRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -36,41 +42,67 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            ListItem item = null;
+            int position = -1;
             if (requestCode == EditActivity.ADD_REQUEST) {
-                Drawable avatar = getResources().getDrawable(android.R.drawable.ic_delete);
+                Uri avatar = Uri.parse(data.getExtras().getString(EditActivity.AVATAR));
                 String name = data.getExtras().getString(EditActivity.NAME);
                 String number = data.getExtras().getString(EditActivity.NUMBER);
                 String email = data.getExtras().getString(EditActivity.EMAIL);
-                ListItem item = new ListItem(avatar, name, number, email);
+                item = new ListItem(avatar, name, number, email);
+                position = list.size();
                 list.add(item);
                 adapter.notifyDataSetChanged();
             }
             if (requestCode == EditActivity.EDIT_REQUEST) {
-                int position = data.getExtras().getInt(EditActivity.POSITION);
-                ListItem item = list.get(position);
+                position = data.getExtras().getInt(EditActivity.POSITION);
+                item = list.get(position);
+                item.avatar = Uri.parse(data.getExtras().getString(EditActivity.AVATAR));
                 item.name = data.getExtras().getString(EditActivity.NAME);
                 item.number = data.getExtras().getString(EditActivity.NUMBER);
                 item.email = data.getExtras().getString(EditActivity.EMAIL);
                 list.set(position, item);
                 adapter.notifyDataSetChanged();
             }
+            SharedPreferences preferences = getSharedPreferences(EditActivity.PREF, MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(EditActivity.AVATAR + position, item.avatar.toString());
+            editor.putString(EditActivity.NAME + position, item.name);
+            editor.putString(EditActivity.NUMBER + position, item.number);
+            editor.putString(EditActivity.EMAIL + position, item.email);
+            editor.putInt(EditActivity.POSITION, list.size() - 1);
+            editor.apply();
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void setData() {
         list = new ArrayList<>();
-        list.add(new ListItem(
-                getDrawable(android.R.drawable.ic_delete),
-                "Максим Хоцевич",
-                "+7 (921) 085-53-50",
-                "xozewitc@yandex.ru")
-        );
+        SharedPreferences preferences = getSharedPreferences(EditActivity.PREF, MODE_PRIVATE);
+        int position = preferences.getInt(EditActivity.POSITION, -1);
+        for (int i = 0; i <= position; i++) {
+            Uri avatar = Uri.parse(preferences.getString(EditActivity.AVATAR + i, ""));
+            String name = preferences.getString(EditActivity.NAME + i, "");
+            String number = preferences.getString(EditActivity.NUMBER + i, "");
+            String email = preferences.getString(EditActivity.EMAIL + i, "");
+            list.add(new ListItem(avatar, name, number, email));
+        }
     }
-
+    public static Uri getUriToDrawable(@NonNull Context context,
+                                       @AnyRes int drawableId) {
+        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + context.getResources().getResourcePackageName(drawableId)
+                + '/' + context.getResources().getResourceTypeName(drawableId)
+                + '/' + context.getResources().getResourceEntryName(drawableId) );
+        return imageUri;
+    }
     public void onClick(View view) {
         Intent addIntent = new Intent(this, EditActivity.class);
+        addIntent.putExtra(EditActivity.AVATAR, getUriToDrawable(this, android.R.drawable.star_on).toString());
+        addIntent.putExtra(EditActivity.NAME, "");
+        addIntent.putExtra(EditActivity.NUMBER, "");
+        addIntent.putExtra(EditActivity.EMAIL, "");
+        addIntent.putExtra(EditActivity.POSITION, -1);
         startActivityForResult(addIntent, EditActivity.ADD_REQUEST);
     }
 }

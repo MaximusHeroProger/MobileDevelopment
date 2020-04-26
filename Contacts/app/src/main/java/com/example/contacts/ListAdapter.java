@@ -4,8 +4,10 @@ package com.example.contacts;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +20,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    Context context;
-    List<ListItem> list;
+    private Context context;
+    private List<ListItem> list;
 
-    public ListAdapter(Context context, List<ListItem> list) {
+    ListAdapter(Context context, List<ListItem> list) {
         this.context = context;
         this.list = list;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final ListItem item = list.get(position);
-        holder.avatar.setImageDrawable(item.avatar);
+        holder.avatar.setImageURI(item.avatar);
         holder.name.setText(item.name);
         holder.number.setText(item.number);
         holder.email.setText(item.email);
@@ -46,8 +47,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent editIntent = new Intent(context, EditActivity.class);
-                Bitmap bitmap = ((BitmapDrawable)item.avatar).getBitmap();
-                editIntent.putExtra(EditActivity.AVATAR, bitmap);
+                editIntent.putExtra(EditActivity.AVATAR, item.avatar.toString());
                 editIntent.putExtra(EditActivity.NAME, item.name);
                 editIntent.putExtra(EditActivity.NUMBER, item.number);
                 editIntent.putExtra(EditActivity.EMAIL, item.email);
@@ -59,6 +59,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 list.remove(position);
+                SharedPreferences preferences = context.getSharedPreferences(EditActivity.PREF, context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove(EditActivity.AVATAR + list.size());
+                editor.remove(EditActivity.NAME + list.size());
+                editor.remove(EditActivity.NUMBER + list.size());
+                editor.remove(EditActivity.EMAIL + list.size());
+                editor.putInt(EditActivity.POSITION, list.size() - 1);
+                for (int i = position; i < list.size(); i++) {
+                    editor.putString(EditActivity.AVATAR + i, list.get(i).avatar.toString());
+                    editor.putString(EditActivity.NAME + i, list.get(i).name);
+                    editor.putString(EditActivity.NUMBER + i, list.get(i).number);
+                    editor.putString(EditActivity.EMAIL + i, list.get(i).email);
+                }
+                editor.apply();
                 notifyDataSetChanged();
             }
         });
@@ -71,7 +85,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         ImageView avatar;
         TextView name, number, email;
         Button editButton, deleteButton;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatarView);
             name = itemView.findViewById(R.id.nameView);

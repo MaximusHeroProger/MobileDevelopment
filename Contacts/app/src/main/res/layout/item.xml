@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,10 +8,13 @@
     <ImageView
         android:id="@+id/avatarView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
         android:layout_weight="2"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/avatar" />
+        android:contentDescription="@string/avatar"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,12 +61,12 @@
 
             <Button
                 android:id="@+id/editButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/edit"
-                style="?android:attr/buttonBarButtonStyle"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/deleteButton"
