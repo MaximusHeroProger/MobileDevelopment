@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Contacts</string>
+    <string name="avatar">avatar</string>
+    <string name="name">Имя:</string>
+    <string name="number">Номер телефона:</string>
+    <string name="email">Email:</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="save">Сохранить</string>
+</resources>
