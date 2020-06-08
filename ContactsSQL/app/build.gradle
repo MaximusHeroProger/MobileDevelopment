@@ -5,8 +5,8 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.contacts"
-        minSdkVersion 14
+        applicationId "com.example.contactssql"
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -33,8 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    implementation 'androidx.room:room-runtime:2.2.5'
-    testImplementation 'androidx.room:room-testing:2.2.5'
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "androidx.room:room-runtime:2.2.5"
+    testImplementation "androidx.room:room-testing:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
 }

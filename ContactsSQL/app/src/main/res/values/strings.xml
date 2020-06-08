@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ContactsSQL</string>
+    <string name="addContact">Добавить контакт</string>
+    <string name="avatar">avatar</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="patronymic">Отчество</string>
+    <string name="phone">Телефон</string>
+    <string name="email">Email</string>
+    <string name="save">Сохранить</string>
+</resources>
