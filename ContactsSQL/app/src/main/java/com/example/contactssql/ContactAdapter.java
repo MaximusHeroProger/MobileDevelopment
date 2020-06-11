@@ -77,17 +77,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         list.remove(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textName, textPhone, textEmail;
         LinearLayout contact;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            textName = textName.findViewById(R.id.textName);
-            textPhone = textPhone.findViewById(R.id.textPhone);
-            textEmail = textEmail.findViewById(R.id.textEmail);
-            contact = contact.findViewById(R.id.contact);
+            textName = itemView.findViewById(R.id.textName);
+            textPhone = itemView.findViewById(R.id.textPhone);
+            textEmail = itemView.findViewById(R.id.textEmail);
+            contact = itemView.findViewById(R.id.contact);
         }
     }
 }

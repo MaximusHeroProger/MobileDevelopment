@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
         handler = new Handler(){
-            public void handlerMessage(Message message) {
+            public void handleMessage(Message message) {
                 adapter.list = list;
                 adapter.notifyDataSetChanged();
             }
